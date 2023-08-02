@@ -7,21 +7,43 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.cap.samplecompose.helper.AppToolBar
+import com.cap.samplecompose.helper.ShareClick
+import com.cap.samplecompose.helper.Utils.modifier
+import com.cap.samplecompose.helper.onBackClickListner
+import com.cap.samplecompose.helper.onShareClickListner
 import com.cap.samplecompose.model.ArticlesItem
 
 @Composable
-fun NewsDetailScreen(item: ArticlesItem?, modifier: Modifier) {
-    return Row {
+fun NewsDetailScreen(item: ArticlesItem?, navController: NavController) {
+    val context = LocalContext.current
+    AppToolBar(object : onBackClickListner {
+        override fun onclicked() {
+            navController.popBackStack()
+        }
+    }, object : onShareClickListner {
+        override fun onclicked() {
+            item?.url?.let { url ->
+                context.ShareClick(url)
+            }
+        }
+    })
+    DetailScreen(item)
+}
+
+@Composable
+fun DetailScreen(item: ArticlesItem?) {
+    Row(modifier = Modifier.padding(vertical = 16.dp)) {
         Column {
             Box(
                 modifier = modifier,
@@ -31,25 +53,31 @@ fun NewsDetailScreen(item: ArticlesItem?, modifier: Modifier) {
                     painter = rememberAsyncImagePainter(item?.urlToImage),
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
-                    modifier = modifier.padding(16.dp,0.dp,16.dp,0.dp)
-                        .height(200.dp)
+                    modifier = Modifier
+                        .padding(16.dp, 0.dp, 16.dp, 16.dp)
+                        .height(300.dp)
                         .fillMaxWidth()
                 )
             }
             Text(
-                modifier =  modifier.padding(16.dp,0.dp,16.dp,0.dp),
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 8.dp),
+                text = item?.publishedAt ?: "",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 text = item?.title ?: "",
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                modifier =  modifier.padding(16.dp,0.dp,16.dp,0.dp),
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 text = item?.description ?: "",
                 style = MaterialTheme.typography.bodySmall
             )
-            Divider(
-                modifier =modifier.padding(16.dp,8.dp,16.dp,8.dp),
-                color = Color.Blue,
-                thickness = 1.dp
+            Text(
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                text = item?.content ?: "",
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }

@@ -23,13 +23,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.cap.samplecompose.NavDestination
 import com.cap.samplecompose.NewsDetailScreenRoute
+import com.cap.samplecompose.helper.Utils
 import com.cap.samplecompose.model.ArticlesItem
 
 @Composable
-fun NewsScreen(article: List<ArticlesItem?>?, modifier: Modifier,navController: NavController) {
+fun NewsScreen(article: List<ArticlesItem?>?,navController: NavController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
@@ -38,17 +41,18 @@ fun NewsScreen(article: List<ArticlesItem?>?, modifier: Modifier,navController: 
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
             items(count = article?.size ?: 0, itemContent = {
-                NewsListItemView(item = article?.get(it), modifier = modifier, onNewsItemClick = {
-                    NavHost(navController = navController, graph = )
+                NewsListItemView(item = article?.get(it), onNewsItemClick = {
+                    navController.navigate(NewsDetailScreenRoute.route)
                 })
             })
         }
     }
 }
 
+
 @Composable
 fun NewsListItemView(
-    item: ArticlesItem?, modifier: Modifier, onNewsItemClick: (ArticlesItem?) -> Unit = {},
+    item: ArticlesItem?,onNewsItemClick: (ArticlesItem?) -> Unit = {},
 ) {
     return Row {
         Column(
@@ -58,31 +62,31 @@ fun NewsListItemView(
                     onNewsItemClick(item)
                 }) {
             Box(
-                modifier = modifier,
+                modifier = Utils.modifier,
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = rememberAsyncImagePainter(item?.urlToImage),
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
-                    modifier = modifier
+                    modifier = Utils.modifier
                         .padding(16.dp, 0.dp, 16.dp, 0.dp)
                         .height(200.dp)
                         .fillMaxWidth()
                 )
             }
             Text(
-                modifier = modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                modifier = Utils.modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 text = item?.title ?: "",
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                modifier = modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                modifier = Utils.modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 text = item?.description ?: "",
                 style = MaterialTheme.typography.bodySmall
             )
             Divider(
-                modifier = modifier.padding(16.dp, 8.dp, 16.dp, 8.dp),
+                modifier = Utils.modifier.padding(16.dp, 8.dp, 16.dp, 8.dp),
                 color = Color.Blue,
                 thickness = 1.dp
             )

@@ -25,6 +25,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cap.samplecompose.model.Resource
@@ -47,29 +49,21 @@ class MainActivity : ComponentActivity() {
         networkViewModel.getNewList()
         setContent {
             MyApplicationTheme {
-                val navController = rememberNavController()
-                val currentBackStack by navController.currentBackStackEntryAsState()
-                val currentDestination = currentBackStack?.destination
+                val navController:NavHostController= rememberNavController()
+                Navigation(networkViewModel, navController = navController)
                 when (val response = networkViewModel.newsListResponse.collectAsState().value) {
                     is Resource.Loading -> {
                         CustomCircularProgressBar()
                     }
-
                     is Resource.Error -> {
                         ErrorUi(
                             modifier = Modifier
                                 .fillMaxWidth(), response.message
                         )
                     }
-
                     is Resource.Success -> {
-                        val article = response.data
-                        NewsScreen(
-                            article = article,
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            navController = navController
-                        )
+                        networkViewModel.networkList = response.data
+                        navController.navigate(NewsScreenRoute.route)
                     }
                 }
             }

@@ -10,7 +10,11 @@ interface NavDestination {
 }
 
 object NewsDetailScreenRoute : NavDestination {
-    override val route = "newsDetail"
+    override val route = "newsDetailScreen"
+}
+
+object NewsScreenRoute : NavDestination {
+    override val route = "newsScreen"
 }
 
 private fun NavHostController.navigateToSingleNewsDetail(accountType: ArticlesItem,modifer:Modifier) {
