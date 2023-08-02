@@ -17,7 +17,7 @@ class NetworkViewModel @Inject constructor(private val repo:NetworkRepo) : ViewM
 
     private var _newsList: MutableStateFlow<Resource<List<ArticlesItem?>?>> = MutableStateFlow(Resource.Loading())
     val newsListResponse = _newsList.asStateFlow()
-    var networkList:List<ArticlesItem?>? = ArrayList()
+    var selectedArticle : ArticlesItem? = null
 
     fun getNewList()  {
         viewModelScope.launch(Dispatchers.Main) {

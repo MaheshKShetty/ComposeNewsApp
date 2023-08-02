@@ -14,19 +14,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.cap.samplecompose.helper.AppToolBar
 import com.cap.samplecompose.helper.ShareClick
 import com.cap.samplecompose.helper.Utils.modifier
+import com.cap.samplecompose.helper.getDateInRequiredFormat
 import com.cap.samplecompose.helper.onBackClickListner
 import com.cap.samplecompose.helper.onShareClickListner
 import com.cap.samplecompose.model.ArticlesItem
+import com.cap.samplecompose.network.NetworkViewModel
+import javax.inject.Inject
 
 @Composable
-fun NewsDetailScreen(item: ArticlesItem?, navController: NavController) {
+fun NewsDetailScreen(viewModel: NetworkViewModel, navController: NavController) {
     val context = LocalContext.current
+    val item = viewModel.selectedArticle
     AppToolBar(object : onBackClickListner {
         override fun onclicked() {
             navController.popBackStack()
@@ -43,7 +48,7 @@ fun NewsDetailScreen(item: ArticlesItem?, navController: NavController) {
 
 @Composable
 fun DetailScreen(item: ArticlesItem?) {
-    Row(modifier = Modifier.padding(vertical = 16.dp)) {
+    Row(modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)) {
         Column {
             Box(
                 modifier = modifier,
@@ -53,31 +58,38 @@ fun DetailScreen(item: ArticlesItem?) {
                     painter = rememberAsyncImagePainter(item?.urlToImage),
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
-                    modifier = Modifier
-                        .padding(16.dp, 0.dp, 16.dp, 16.dp)
-                        .height(300.dp)
+                    modifier = Modifier.height(300.dp)
                         .fillMaxWidth()
                 )
             }
             Text(
-                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 8.dp),
-                text = item?.publishedAt ?: "",
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = getDateInRequiredFormat(item?.publishedAt ?: ""),
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                modifier = modifier,
                 text = item?.title ?: "",
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                modifier = Modifier.padding(vertical = 8.dp),
                 text = item?.description ?: "",
-                style = MaterialTheme.typography.bodySmall
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                modifier = Modifier.padding(vertical = 8.dp),
                 text = item?.content ?: "",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "Source : " + item?.source?.name,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

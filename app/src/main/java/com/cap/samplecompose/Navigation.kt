@@ -1,6 +1,7 @@
 package com.cap.samplecompose
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,10 +13,10 @@ import com.cap.samplecompose.news.NewsScreen
 fun Navigation(viewModel: NetworkViewModel, navController: NavHostController) {
     NavHost(navController, startDestination = NewsScreenRoute.route) {
         composable(route = NewsScreenRoute.route) {
-            NewsScreen(navController = navController, article = viewModel.networkList)
+            NewsScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = NewsDetailScreenRoute.route) {
-            NewsDetailScreen(item = viewModel.networkList?.get(0),navController = navController)
+            NewsDetailScreen(viewModel = viewModel,navController = navController)
         }
     }
 }

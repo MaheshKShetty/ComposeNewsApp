@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -51,57 +50,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 val navController:NavHostController= rememberNavController()
                 Navigation(networkViewModel, navController = navController)
-                when (val response = networkViewModel.newsListResponse.collectAsState().value) {
-                    is Resource.Loading -> {
-                        CustomCircularProgressBar()
-                    }
-                    is Resource.Error -> {
-                        ErrorUi(
-                            modifier = Modifier
-                                .fillMaxWidth(), response.message
-                        )
-                    }
-                    is Resource.Success -> {
-                        networkViewModel.networkList = response.data
-                        navController.navigate(NewsScreenRoute.route)
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun CustomCircularProgressBar() {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(100.dp),
-                color = Color.Blue,
-                strokeWidth = 10.dp,
-            )
-        }
-    }
-
-    @Composable
-    private fun ErrorUi(modifier: Modifier, message: String?) {
-        Column {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_error),
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-                Text(
-                    modifier = modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
-                    text = message ?: getString(R.string.error_text),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                navController.navigate(NewsScreenRoute.route)
             }
         }
     }

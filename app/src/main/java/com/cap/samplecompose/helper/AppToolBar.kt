@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
@@ -31,11 +32,12 @@ fun AppToolBar(listner: onBackClickListner, shareClicked: onShareClickListner) {
             MediumTopAppBar(
                 title = {
                     Text(
-                        context.getString(R.string.app_name),
+                        context.getString(R.string.news_detial),
                         maxLines = 1,
                         textAlign = TextAlign.Center,
                         color = Color.Black,
                         style = TextStyle.Default,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
                         overflow = TextOverflow.Ellipsis
                     )

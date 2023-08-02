@@ -16,24 +16,42 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import com.cap.samplecompose.NavDestination
 import com.cap.samplecompose.NewsDetailScreenRoute
 import com.cap.samplecompose.helper.Utils
 import com.cap.samplecompose.model.ArticlesItem
+import com.cap.samplecompose.model.Resource
+import com.cap.samplecompose.network.NetworkViewModel
 
 @Composable
-fun NewsScreen(article: List<ArticlesItem?>?,navController: NavController) {
+fun NewsScreen(viewModel: NetworkViewModel, navController: NavController) {
+    when (val response = viewModel.newsListResponse.collectAsState().value) {
+        is Resource.Loading -> {
+            LoaderView()
+        }
 
+        is Resource.Error -> {
+            ErrorScreen(
+                modifier = Modifier.fillMaxWidth(), response.message
+            )
+        }
+
+        is Resource.Success -> {
+            NewsView(response.data, navController = navController,viewModel = viewModel)
+        }
+    }
+}
+
+@Composable
+fun NewsView(article: List<ArticlesItem?>?, navController: NavController, viewModel: NetworkViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
     ) {
@@ -42,6 +60,7 @@ fun NewsScreen(article: List<ArticlesItem?>?,navController: NavController) {
         ) {
             items(count = article?.size ?: 0, itemContent = {
                 NewsListItemView(item = article?.get(it), onNewsItemClick = {
+                    viewModel.selectedArticle = it
                     navController.navigate(NewsDetailScreenRoute.route)
                 })
             })
@@ -49,10 +68,9 @@ fun NewsScreen(article: List<ArticlesItem?>?,navController: NavController) {
     }
 }
 
-
 @Composable
 fun NewsListItemView(
-    item: ArticlesItem?,onNewsItemClick: (ArticlesItem?) -> Unit = {},
+    item: ArticlesItem?, onNewsItemClick: (ArticlesItem?) -> Unit = {},
 ) {
     return Row {
         Column(
@@ -78,6 +96,7 @@ fun NewsListItemView(
             Text(
                 modifier = Utils.modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 text = item?.title ?: "",
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
