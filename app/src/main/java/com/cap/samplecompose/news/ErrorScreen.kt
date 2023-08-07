@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,7 +29,7 @@ fun ErrorScreen(modifier: Modifier, message: String?) {
                 painter = painterResource(R.drawable.ic_error),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = modifier.height(200.dp)
             )
             Text(
                 modifier = modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
