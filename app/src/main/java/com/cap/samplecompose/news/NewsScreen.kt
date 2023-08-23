@@ -16,7 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Face
 import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,8 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -60,26 +65,58 @@ fun NewsScreen(viewModel: NetworkViewModel, navController: NavController) {
         }
 
         is Resource.Success -> {
-            NewsView(response.data, navController = navController,viewModel = viewModel)
+            NewsView(response.data, navController = navController, viewModel = viewModel)
         }
     }
 }
 
 @Composable
-fun NewsView(article: List<ArticlesItem?>?, navController: NavController, viewModel: NetworkViewModel) {
+fun NewsView(
+    article: List<ArticlesItem?>?,
+    navController: NavController,
+    viewModel: NetworkViewModel
+) {
+
+    AppToolBar(object : onBackClickListner {
+        override fun onclicked() {
+            navController.popBackStack()
+        }
+    }, object : onShareClickListner {
+        override fun onclicked() {
+
+        }
+    })
     Surface(
         modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            items(count = article?.size ?: 0, itemContent = {
-                NewsListItemView(item = article?.get(it), onNewsItemClick = {
-                    viewModel.selectedArticle = it
-                    navController.navigate(NewsDetailScreenRoute.route)
+        val context = LocalContext.current
+        Column {
+            ExtendedFloatingActionButton(
+                onClick = { /* ... */ },
+                modifier = Modifier.padding(16.dp),
+                icon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_filter) ,
+                        contentDescription = "Favorite"
+                    )
+                },
+                text = { Text(
+                    text = context.getString(R.string.filter),
+                    modifier = Utils.modifier
+                ) }
+            )
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                items(count = article?.size ?: 0, itemContent = {
+                    NewsListItemView(item = article?.get(it), onNewsItemClick = {
+                        viewModel.selectedArticle = it
+                        navController.navigate(NewsDetailScreenRoute.route)
+                    })
                 })
-            })
+            }
         }
+
     }
 }
 
