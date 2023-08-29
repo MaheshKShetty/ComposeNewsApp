@@ -13,6 +13,11 @@ object NewsDetailScreenRoute : NavDestination {
     override val route = "newsDetailScreen"
 }
 
+object NewsFilterScreenRoute : NavDestination {
+    override val route = "newsFilterRoute"
+}
+
+
 object NewsScreenRoute : NavDestination {
     override val route = "newsScreen"
 }

@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.cap.samplecompose.NewsDetailScreenRoute
+import com.cap.samplecompose.NewsFilterScreenRoute
 import com.cap.samplecompose.R
 import com.cap.samplecompose.helper.AppToolBar
 import com.cap.samplecompose.helper.ShareClick
@@ -92,7 +93,9 @@ fun NewsView(
         val context = LocalContext.current
         Column {
             ExtendedFloatingActionButton(
-                onClick = { /* ... */ },
+                onClick = {
+                    navController.navigate(NewsFilterScreenRoute.route)
+                },
                 modifier = Modifier.padding(16.dp),
                 icon = {
                     Icon(

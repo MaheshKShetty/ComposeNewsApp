@@ -2,5 +2,19 @@
     <string name="app_name">News</string>
     <string name="news_detial">Article Details</string>
     <string name="filter">Filter</string>
+    <string-array name="topics">
+        <item >"Sports"</item>
+        <item >"Entertainment"</item>
+        <item >"Politics"</item>
+        <item >"Technology"</item>
+        <item >"LifeStyle"</item>
+        <item >"Science"</item>
+        <item >"Health &amp; Fitness"</item>
+        <item >"Social Media"</item>
+        <item >"International"</item>
+        <item >"Shopping"</item>
+        <item >"Science &amp; Research"</item>
+        <item >"Food"</item>
+    </string-array>
     <string name="error_text">Something went wrong!</string>
 </resources>

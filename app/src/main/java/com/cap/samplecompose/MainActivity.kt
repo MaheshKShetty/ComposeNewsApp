@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 val navController: NavHostController = rememberNavController()
                 Navigation(networkViewModel, navController = navController)
-                navController.navigate(NewsScreenRoute.route)
             }
         }
     }
