@@ -21,9 +21,7 @@ fun Navigation(viewModel: NetworkViewModel, navController: NavHostController) {
         }
 
         composable(route = NewsFilterScreenRoute.route) {
-            BottomSheet(onDismiss = {
-
-            })
+            BottomSheet(onDismiss = {})
         }
     }
 }
