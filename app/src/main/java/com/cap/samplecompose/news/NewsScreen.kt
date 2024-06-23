@@ -90,24 +90,7 @@ fun NewsView(
     Surface(
         modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
     ) {
-        val context = LocalContext.current
         Column {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    navController.navigate(NewsFilterScreenRoute.route)
-                },
-                modifier = Modifier.padding(16.dp),
-                icon = {
-                    Icon(
-                        painterResource(id = R.drawable.ic_filter) ,
-                        contentDescription = "Favorite"
-                    )
-                },
-                text = { Text(
-                    text = context.getString(R.string.filter),
-                    modifier = Utils.modifier
-                ) }
-            )
             LazyColumn(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {

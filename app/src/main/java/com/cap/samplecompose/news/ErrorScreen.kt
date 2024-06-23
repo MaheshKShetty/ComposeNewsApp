@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cap.samplecompose.R
+import okhttp3.internal.wait
 
 @Composable
 fun ErrorScreen(modifier: Modifier, message: String?) {
@@ -29,7 +31,7 @@ fun ErrorScreen(modifier: Modifier, message: String?) {
                 painter = painterResource(R.drawable.ic_error),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
-                modifier = modifier.height(200.dp)
+                modifier = modifier.width(200.dp).height(200.dp)
             )
             Text(
                 modifier = modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
