@@ -7,9 +7,13 @@ The architecture follows best practices in Android development, ensuring modular
 
 Concepts used 
 Jetpack Compose: Modern UI toolkit for building native Android UI.
+
 Retrofit: Type-safe HTTP client for making API requests.
+
 Hilt: Dependency injection library for Android that reduces boilerplate code.
+
 Kotlin Coroutines : for Threading
+
 Navigation Component: Android Jetpack's component for navigation between fragments and activities.
 
 ![Screenshot_20240623_153541](https://github.com/MaheshKShetty/ComposeNewsApp/assets/39030189/a702d977-4588-42aa-9502-0125707dcf77)
